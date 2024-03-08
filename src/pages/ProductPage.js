@@ -145,7 +145,8 @@ function ProductPage(props) {
                   </div>
                 </div>
                 <button className="btn btn-primary px-3">
-                  <i className="fa fa-shopping-cart mr-1" /> Add To Cart
+                <Link to="/cart" className="btn btn-black py-3 px-5 mr-2" onClick={handleAddtoCart}>Add to Cart</Link>
+
                 </button>
               </div>
               <div className="d-flex pt-2">

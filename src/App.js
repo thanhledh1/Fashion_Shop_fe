@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           {/* <Route path="/shop" element={<ShopPage />} /> */}
-          {/* <Route path="/cart" element={<CartPage />} /> */}
+          <Route path="/cart" element={<CartPage />} />
           {/* <Route path="/register" element={<RegisterPage />} /> */}
           {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
           <Route path="/product/:id" element={<ProductPage />} />
