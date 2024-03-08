@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MasterLayout from "../layouts/MasterLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Product from "../models/Product";
 
 function HomePage(props) {
@@ -91,15 +91,15 @@ function HomePage(props) {
                       </div>
                     </div>
                     <div className="card-footer d-flex justify-content-between bg-light border">
-                      <a href="" className="btn btn-sm text-dark p-0">
-                        <i className="fas fa-eye text-primary mr-1" />
-                        View Detail
-                      </a>
-                      <a href="" className="btn btn-sm text-dark p-0">
-                        <i className="fas fa-shopping-cart text-primary mr-1" />
-                        Add To Cart
-                      </a>
-                    </div>
+          <Link to={`/product/${product.id}`} className="btn btn-sm text-dark p-0">
+            <i className="fas fa-eye text-primary mr-1" />
+            View Detail
+          </Link>
+          <Link to="/cart" className="btn btn-sm text-dark p-0">
+            <i className="fas fa-shopping-cart text-primary mr-1" />
+            Add To Cart
+          </Link>
+        </div>
                   </div>
                 </div>
               ))
