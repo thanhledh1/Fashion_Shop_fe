@@ -1,4 +1,4 @@
-import { SET_CART, SET_USER, REMOVE_ITEM_FROM_CART, UPDATE_CART_ITEM_QUANTITY } from "./action";
+  import { SET_CART, SET_USER, REMOVE_ITEM_FROM_CART, UPDATE_CART_ITEM_QUANTITY } from "./action";
 
 let oldCart = localStorage.getItem("cart");
 oldCart = oldCart ? JSON.parse(oldCart) : [];
