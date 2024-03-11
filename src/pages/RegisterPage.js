@@ -3,22 +3,23 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import MasterLayout from '../layouts/MasterLayout';
+import Swal from 'sweetalert2';
 
 function CustomerForm() {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
         email: Yup.string()
             .email('Invalid email')
-            .required('Email is required')
-            .test('unique', 'Email already exists', async (value) => {
-                try {
-                    const response = await axios.get(`http://127.0.0.1:8000/api/check-email?email=${value}`);
-                    return response.data.isUnique;
-                } catch (error) {
-                    console.error('Error:', error);
-                    return false;
-                }
-            }),
+            .required('Email is required'),
+            // .test('unique', 'Email already exists', async function(value) {
+            //     try {
+            //         const response = await axios.get(`'http://127.0.0.1:8000/api/check-email?email=${value}`);
+            //         return !response.data.exists;
+            //     } catch (error) {
+            //         console.error('Error:', error);
+            //         return false;
+            //     }
+            // }),
         phone: Yup.number().required('Phone number is required'),
         address: Yup.string().required('Address is required'),
         password: Yup.string().required('Password is required'),
@@ -29,8 +30,22 @@ function CustomerForm() {
 
     const handleSubmit = (values, { setSubmitting, resetForm }) => {
         axios
-            .post('http://127.0.0.1:8000/api/customers', values)
-            .then(response => {
+            .post('http://127.0.0.1:8000/api/register', values)
+            .then((response) => {
+                if(response.data.success == false) {
+                    Swal.fire({
+                        title: 'Thất bại',
+                        text: response.data.message,
+                        icon: 'error',
+                    });
+                }else {
+                    Swal.fire({
+                        title: 'Thành công',
+                        text: 'Đăng ký thành công!',
+                        icon: 'success',
+                    });
+                }
+              
                 console.log(response.data);
                 // Reset form after successful submission
                 resetForm();

@@ -16,7 +16,11 @@ function LoginPage(props) {
         resetForm();
       })
       .catch(error => {
-        console.error('Error:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+          setMessage(error.response.data.message);
+        } else {
+          setMessage('Đã xảy ra lỗi. Vui lòng thử lại.');
+        }
       })
       .finally(() => {
         setSubmitting(false);
@@ -72,8 +76,15 @@ function LoginPage(props) {
             </Form>
           )}
         </Formik>
-        {message && <p>{message}</p>}
+        {message && <p className="error">{message}</p>}
       </div>
+      <style>
+                {`
+                .error {
+                    color: red;
+                }
+                `}
+            </style>
     </MasterLayout>
   );
 }
