@@ -15,7 +15,7 @@ function App() {
           {/* <Route path="/shop" element={<ShopPage />} /> */}
           <Route path="/cart" element={<CartPage />} />
           {/* <Route path="/register" element={<RegisterPage />} /> */}
-          {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           {/* <Route path="/login" element={<LoginPage />} /> */}
 
