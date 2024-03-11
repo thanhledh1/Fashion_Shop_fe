@@ -1,50 +1,146 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import MasterLayout from '../layouts/MasterLayout';
 
-// function CustomerForm() {
-//     const [email, setEmail] = useState('');
-//     const [name, setName] = useState('');
-//     const [message, setMessage] = useState('');
+function CustomerForm() {
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Name is required'),
+        email: Yup.string()
+            .email('Invalid email')
+            .required('Email is required')
+            .test('unique', 'Email already exists', async (value) => {
+                try {
+                    const response = await axios.get(`http://127.0.0.1:8000/api/check-email?email=${value}`);
+                    return response.data.isUnique;
+                } catch (error) {
+                    console.error('Error:', error);
+                    return false;
+                }
+            }),
+        phone: Yup.number().required('Phone number is required'),
+        address: Yup.string().required('Address is required'),
+        password: Yup.string().required('Password is required'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Confirm password is required'),
+    });
 
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+        axios
+            .post('http://127.0.0.1:8000/api/customers', values)
+            .then(response => {
+                console.log(response.data);
+                // Reset form after successful submission
+                resetForm();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                setSubmitting(false);
+            });
+    };
 
-//         // Tạo một object chứa dữ liệu để gửi lên server
-//         const data = {
-//             email: email,
-//             name: name
-//         };
+    return (
+        <MasterLayout>
+            <div className="container">
+            <div className="mb-4">
+                <h4 className="font-weight-semi-bold mb-4">Register</h4>
+                <Formik
+                    initialValues={{
+                        email: '',
+                        name: '',
+                        phone: '',
+                        address: '',
+                        password: '',
+                        confirmPassword: '',
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <div className="row">
+                                <div className="col-md-6 form-group">
+                                    <label>Name</label>
+                                    <Field
+                                        className="form-control"
+                                        type="text"
+                                        name="name"
+                                        placeholder="John"
+                                    />
+                                    <ErrorMessage name="name" component="div" className="error-message"/>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                    <label>E-mail</label>
+                                    <Field
+                                        className="form-control"
+                                        type="text"
+                                        name="email"
+                                        placeholder="example@email.com"
+                                    />
+                                    <ErrorMessage name="email" component="div" className="error-message" />
+                                </div>
+                                <div className="col-md-6 form-group">
+                                    <label>Mobile No</label>
+                                    <Field
+                                        className="form-control"
+                                        type="number"
+                                        name="phone"
+                                        placeholder="+123 456 789"
+                                    />
+                                    <ErrorMessage name="phone" component="div" className="error-message" />
+                                </div>
+                                <div className="col-md-6 form-group">
+                                    <label>Address</label>
+                                    <Field
+                                        className="form-control"
+                                        type="text"
+                                        name="address"
+                                        placeholder="123 Street"
+                                    />
+                                    <ErrorMessage name="address" component="div" className="error-message" />
+                                </div>
+                                <div className="col-md-6 form-group">
+                                    <label>Password</label>
+                                    <Field
+                                        className="form-control"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Enter your password"
+                                    />
+                                    <ErrorMessage name="password" component="div" className="error-message" />
+                                </div>
+                                <div className="col-md-6 form-group">
+                                    <label>Re-enter Password</label>
+                                    <Field
+                                        className="form-control"
+                                        type="password"
+                                        name="confirmPassword"
+                                        placeholder="Re-enter your password"
+                                    />
+                                    <ErrorMessage name="confirmPassword" component="div" className="error-message" />
+                                </div>
+                            </div>
+                            <button type="submit" disabled={isSubmitting}>
+                                Submit
+                            </button>
+                        </Form>
+                    )}
+                </Formik>
+            </div>
+            </div>
+            <style>
+                {`
+                .error-message {
+                    color: red;
+                }
+                `}
+            </style>
+        </MasterLayout>
+    );
+}
 
-//         // Gửi yêu cầu POST đến server
-//         axios.post('http://127.0.0.1:8000/api/users/register', data)
-//             .then(response => {
-//                 // Xử lý phản hồi từ server
-//                 console.log(response.data); // Log phản hồi từ server
-//                 setMessage(response.data.message); // Hiển thị thông báo từ server
-//                 // Có thể xử lý dữ liệu khác từ server tại đây nếu cần
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//             });
-//     };
-
-//     return (
-//         <div>
-//             <h2>Customer Form</h2>
-//             <form onSubmit={handleSubmit}>
-//                 <div>
-//                     <label>Email:</label>
-//                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-//                 </div>
-//                 <div>
-//                     <label>Name:</label>
-//                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-//                 </div>
-//                 <button type="submit" >Submit</button>
-//             </form>
-//             {message && <p>{message}</p>} {/* Hiển thị thông báo từ server */}
-//         </div>
-//     );
-// }
-
-// export default CustomerForm;
+export default CustomerForm;
