@@ -138,10 +138,10 @@ function Sidebar(props) {
                 </Link>
               </div>
               <div className="navbar-nav ml-auto py-0">
-                <Link to="" className="nav-item nav-link">
+                <Link to="/login" className="nav-item nav-link">
                   Login
                 </Link>
-                <Link to="" className="nav-item nav-link">
+                <Link to="/register" className="nav-item nav-link">
                   Register
                 </Link>
               </div>
