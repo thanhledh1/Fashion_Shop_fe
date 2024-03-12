@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "./Menu";
+import { Link } from 'react-router-dom';
 
 function Header(props) {
   return (
@@ -68,14 +68,11 @@ function Header(props) {
       </form>
     </div>
     <div className="col-lg-3 col-6 text-right">
-      <a href="" className="btn border">
-        <i className="fas fa-heart text-primary" />
-        <span className="badge">0</span>
-      </a>
-      <a href="" className="btn border">
+      
+      <Link to="/cart" className="btn border">
         <i className="fas fa-shopping-cart text-primary" />
         <span className="badge">0</span>
-      </a>
+      </Link>
     </div>
   </div>
 </div>
