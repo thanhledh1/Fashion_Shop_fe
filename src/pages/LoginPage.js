@@ -3,10 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import MasterLayout from '../layouts/MasterLayout';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage(props) {
   const [message, setMessage] = useState('');
+  const Navigate = useNavigate();
+
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     axios
@@ -18,6 +20,7 @@ function LoginPage(props) {
         localStorage.setItem('token', token);
         setMessage(response.data.message);
         resetForm();
+        Navigate('/checkout');
 
 
         
@@ -42,7 +45,6 @@ function LoginPage(props) {
   return (
     <MasterLayout>
       <div className="container">
-        <h1>Login</h1>
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
