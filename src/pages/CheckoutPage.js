@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MasterLayout from "../layouts/MasterLayout";
 import { useDispatch, useSelector } from "react-redux";
 import OrderModel from "../models/Order";
@@ -7,7 +7,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function CheckoutPage(props) {
   const cart = useSelector((state) => state.cart);
+  const [user, setUser] = useState({});
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let login_user = localStorage.getItem("user");
+    login_user = JSON.parse(login_user);
+    setUser(login_user);
+  }, []);
 
   const handleSubmit = (values) => {
     OrderModel.checkout({
@@ -39,7 +46,6 @@ function CheckoutPage(props) {
 
   return (
     <MasterLayout>
-
       <>
         {/* Page Header Start */}
         <div className="container-fluid bg-secondary mb-5">
@@ -167,10 +173,7 @@ function CheckoutPage(props) {
                     </div>
                   </div>
                   <div className="col-md-12 form-group">
-                    <div className="custom-control custom-checkbox">
-                     
-                    
-                    </div>
+                    <div className="custom-control custom-checkbox"></div>
                   </div>
                 </div>
               </div>
@@ -261,7 +264,7 @@ function CheckoutPage(props) {
                 </div>
               </div>
             </div>
-    
+
             <div className="col-lg-4">
               <div className="card border-secondary mb-5">
                 <div className="card-header bg-secondary border-0">

@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import MasterLayout from '../layouts/MasterLayout';
+import { Navigate } from 'react-router-dom';
 
 function LoginPage(props) {
   const [message, setMessage] = useState('');
@@ -11,9 +12,15 @@ function LoginPage(props) {
     axios
       .post('http://127.0.0.1:8000/api/login', values)
       .then(response => {
-        console.log(response.data);
+        const user = response.data.user;
+        const token = response.data.authorization.token;
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
         setMessage(response.data.message);
         resetForm();
+
+
+        
       })
       .catch(error => {
         if (error.response && error.response.data && error.response.data.message) {
