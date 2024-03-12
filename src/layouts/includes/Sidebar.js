@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 function Sidebar(props) {
   const location = useLocation();
@@ -18,6 +18,7 @@ function Sidebar(props) {
   };
 
   return (
+
     <div className="container-fluid mb-5">
       <div className="row border-top px-xl-5">
         <div className="col-lg-3 d-none d-lg-block">
@@ -42,57 +43,57 @@ function Sidebar(props) {
                   Dresses <i className="fa fa-angle-down float-right mt-1" />
                 </a>
                 <div className="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                  <a href="" className="dropdown-item">
+                  <Link to="" className="dropdown-item">
                     Men's Dresses
-                  </a>
-                  <a href="" className="dropdown-item">
+                  </Link>
+                  <Link to="" className="dropdown-item">
                     Women's Dresses
-                  </a>
-                  <a href="" className="dropdown-item">
+                  </Link>
+                  <Link to="" className="dropdown-item">
                     Baby's Dresses
-                  </a>
+                  </Link>
                 </div>
               </div>
-              <a href="" className="nav-item nav-link">
+              <Link to="" className="nav-item nav-link">
                 Shirts
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Jeans
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Swimwear
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Sleepwear
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Sportswear
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Jumpsuits
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Blazers
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Jackets
-              </a>
-              <a href="" className="nav-item nav-link">
+              </Link>
+              <Link to="" className="nav-item nav-link">
                 Shoes
-              </a>
+              </Link>
             </div>
           </nav>
         </div>
         <div className="col-lg-9">
           <nav className="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-            <a href="" className="text-decoration-none d-block d-lg-none">
+            <Link to="" className="text-decoration-none d-block d-lg-none">
               <h1 className="m-0 display-5 font-weight-semi-bold">
                 <span className="text-primary font-weight-bold border px-3 mr-1">
                   E
                 </span>
                 Shopper
               </h1>
-            </a>
+            </Link>
             <button
               type="button"
               className="navbar-toggler"
@@ -106,43 +107,43 @@ function Sidebar(props) {
               id="navbarCollapse"
             >
               <div className="navbar-nav mr-auto py-0">
-                <a href="index.html" className="nav-item nav-link active">
+                <Link to="/" className="nav-item nav-link active">
                   Home
-                </a>
-                <a href="shop.html" className="nav-item nav-link">
+                </Link>
+                <Link to="shop.html" className="nav-item nav-link">
                   Shop
-                </a>
-                <a href="detail.html" className="nav-item nav-link">
+                </Link>
+                <Link to="detail.html" className="nav-item nav-link">
                   Shop Detail
-                </a>
+                </Link>
                 <div className="nav-item dropdown">
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="nav-link dropdown-toggle"
                     data-toggle="dropdown"
                   >
                     Pages
-                  </a>
+                  </Link>
                   <div className="dropdown-menu rounded-0 m-0">
-                    <a href="cart.html" className="dropdown-item">
+                    <Link to="cart.html" className="dropdown-item">
                       Shopping Cart
-                    </a>
-                    <a href="checkout.html" className="dropdown-item">
+                    </Link>
+                    <Link to="checkout.html" className="dropdown-item">
                       Checkout
-                    </a>
+                    </Link>
                   </div>
                 </div>
-                <a href="contact.html" className="nav-item nav-link">
+                <Link to="contact.html" className="nav-item nav-link">
                   Contact
-                </a>
+                </Link>
               </div>
               <div className="navbar-nav ml-auto py-0">
-                <a href="" className="nav-item nav-link">
+                <Link to="" className="nav-item nav-link">
                   Login
-                </a>
-                <a href="" className="nav-item nav-link">
+                </Link>
+                <Link to="" className="nav-item nav-link">
                   Register
-                </a>
+                </Link>
               </div>
             </div>
           </nav>
@@ -204,7 +205,7 @@ function Sidebar(props) {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
