@@ -110,10 +110,10 @@ function Sidebar(props) {
                 <Link to="/" className="nav-item nav-link active">
                   Home
                 </Link>
-                <Link to="shop.html" className="nav-item nav-link">
+                <Link to="" className="nav-item nav-link">
                   Shop
                 </Link>
-                <Link to="detail.html" className="nav-item nav-link">
+                <Link to="" className="nav-item nav-link">
                   Shop Detail
                 </Link>
                 <div className="nav-item dropdown">
@@ -125,15 +125,15 @@ function Sidebar(props) {
                     Pages
                   </Link>
                   <div className="dropdown-menu rounded-0 m-0">
-                    <Link to="cart.html" className="dropdown-item">
+                    <Link to="/cart" className="dropdown-item">
                       Shopping Cart
                     </Link>
-                    <Link to="checkout.html" className="dropdown-item">
+                    <Link to="/checkout" className="dropdown-item">
                       Checkout
                     </Link>
                   </div>
                 </div>
-                <Link to="contact.html" className="nav-item nav-link">
+                <Link to="" className="nav-item nav-link">
                   Contact
                 </Link>
               </div>

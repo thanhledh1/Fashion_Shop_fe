@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 
 function Header(props) {
+  const cart = useSelector((state) => state.cart);
+
   return (
     <div className="container-fluid">
   <div className="row bg-secondary py-2 px-xl-5">
@@ -42,14 +45,14 @@ function Header(props) {
   </div>
   <div className="row align-items-center py-3 px-xl-5">
     <div className="col-lg-3 d-none d-lg-block">
-      <a href="" className="text-decoration-none">
-        <h1 className="m-0 display-5 font-weight-semi-bold">
-          <span className="text-primary font-weight-bold border px-3 mr-1">
-            E
-          </span>
-          Shopper
-        </h1>
-      </a>
+    <Link to="/" className="text-decoration-none">
+  <h1 className="m-0 display-5 font-weight-semi-bold">
+    <span className="text-primary font-weight-bold border px-3 mr-1">
+      E
+    </span>
+    Shopper
+  </h1>
+</Link>
     </div>
     <div className="col-lg-6 col-6 text-left">
       <form action="">
@@ -71,7 +74,7 @@ function Header(props) {
       
       <Link to="/cart" className="btn border">
         <i className="fas fa-shopping-cart text-primary" />
-        <span className="badge">0</span>
+        <span className="badge">{cart.length}</span>
       </Link>
     </div>
   </div>
