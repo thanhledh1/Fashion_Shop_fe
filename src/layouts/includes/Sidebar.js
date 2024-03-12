@@ -1,30 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import Category from '../../models/Category';
+
 
 function Sidebar(props) {
+  const [categories, setCategories] = useState([]);
   const location = useLocation();
   const [isHomePage, setIsHomePage] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   useEffect(() => {
-    // Xác định xem có phải trang chủ không dựa trên pathname
     setIsHomePage(location.pathname === '/' || location.pathname === '/index.html');
-    // Đóng category menu khi không ở trang chủ
     setIsCategoryOpen(location.pathname === '/' || location.pathname === '/index.html');
+
+    Category.all()
+      .then(function (res) {
+        console.log(res.data.data);
+        setCategories(res.data.data);
+      })
+      .catch(function (error) {
+        alert("500 error");
+      });
+
   }, [location]);
 
   const toggleCategory = () => {
-    setIsCategoryOpen(!isCategoryOpen); // Toggle trạng thái khi click
+    setIsCategoryOpen(!isCategoryOpen);
   };
 
   return (
-
     <div className="container-fluid mb-5">
       <div className="row border-top px-xl-5">
         <div className="col-lg-3 d-none d-lg-block">
           <a
             className="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100"
-            onClick={toggleCategory} // Sử dụng hàm toggleCategory khi click
+            onClick={toggleCategory}
             style={{ height: 65, marginTop: "-1px", padding: "0 30px" }}
           >
             <h6 className="m-0">Categories</h6>
@@ -34,53 +44,22 @@ function Sidebar(props) {
             className={`collapse navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 ${isCategoryOpen ? 'show' : ''}`}
             id="navbar-vertical"
           >
-            <div
-              className="navbar-nav w-100 overflow-hidden"
-              style={{ height: 410 }}
-            >
-              <div className="nav-item dropdown">
-                <a href="#" className="nav-link" data-toggle="dropdown">
-                  Dresses <i className="fa fa-angle-down float-right mt-1" />
-                </a>
-                <div className="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                  <Link to="" className="dropdown-item">
-                    Men's Dresses
-                  </Link>
-                  <Link to="" className="dropdown-item">
-                    Women's Dresses
-                  </Link>
-                  <Link to="" className="dropdown-item">
-                    Baby's Dresses
-                  </Link>
-                </div>
+            <div className="row px-xl-5 pb-3">
+              <div className="col-12">
+                  <ul className="list-group">
+                    {categories.length ? (
+                      categories.map((category, key) => (
+                        <li className="list-group-item" key={key}>
+                          <Link to={`/categories/${category.id}`}>
+                            {category.name}
+                          </Link>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="list-group-item"></li>
+                    )}
+                  </ul>
               </div>
-              <Link to="" className="nav-item nav-link">
-                Shirts
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Jeans
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Swimwear
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Sleepwear
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Sportswear
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Jumpsuits
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Blazers
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Jackets
-              </Link>
-              <Link to="" className="nav-item nav-link">
-                Shoes
-              </Link>
             </div>
           </nav>
         </div>
@@ -110,12 +89,6 @@ function Sidebar(props) {
                 <Link to="/" className="nav-item nav-link active">
                   Home
                 </Link>
-                <Link to="shop.html" className="nav-item nav-link">
-                  Shop
-                </Link>
-                <Link to="detail.html" className="nav-item nav-link">
-                  Shop Detail
-                </Link>
                 <div className="nav-item dropdown">
                   <Link
                     to="#"
@@ -125,17 +98,14 @@ function Sidebar(props) {
                     Pages
                   </Link>
                   <div className="dropdown-menu rounded-0 m-0">
-                    <Link to="cart.html" className="dropdown-item">
+                    <Link to="/cart" className="dropdown-item">
                       Shopping Cart
                     </Link>
-                    <Link to="checkout.html" className="dropdown-item">
+                    <Link to="/checkout" className="dropdown-item">
                       Checkout
                     </Link>
                   </div>
                 </div>
-                <Link to="contact.html" className="nav-item nav-link">
-                  Contact
-                </Link>
               </div>
               <div className="navbar-nav ml-auto py-0">
                 <Link to="/login" className="nav-item nav-link">

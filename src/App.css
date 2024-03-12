@@ -39,3 +39,38 @@
 .error-message {
   color: red;
 }
+
+.list-group {
+  list-style: none; /* Loại bỏ các bullet points */
+  padding-left: 0; /* Loại bỏ padding bên trái */
+  background-color: #333; /* Màu nền tối cho danh sách */
+  border-radius: 5px; /* Bo góc cho danh sách */
+  overflow: hidden; /* Ẩn các phần tử ngoài biên */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ */
+}
+
+.list-group-item {
+  color: #ddd; /* Màu chữ sáng cho mỗi mục */
+  padding: 10px 15px; /* Đặt padding cho mỗi mục */
+  border-bottom: 1px solid #444; /* Đường viền dưới mỗi mục */
+  background-color: #333; /* Màu nền cho mỗi mục */
+  transition: background-color 0.2s ease-in-out; /* Hiệu ứng khi hover */
+}
+
+.list-group-item:last-child {
+  border-bottom: none; /* Loại bỏ đường viền ở mục cuối cùng */
+}
+
+.list-group-item:hover {
+  background-color: #444; /* Thay đổi màu nền khi hover */
+}
+
+.list-group-item a {
+  color: #f0f0f0; /* Màu sắc cho liên kết */
+  text-decoration: none; /* Loại bỏ gạch chân */
+  transition: color 0.2s ease-in-out; /* Hiệu ứng màu sắc khi hover */
+}
+
+.list-group-item a:hover {
+  color: #1e90ff; /* Màu sắc khi hover lên liên kết */
+}
