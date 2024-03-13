@@ -28,7 +28,6 @@ function ProductPage(props) {
   const handleAddtoCart = () => {
     let newCart = [...cart];
     let isProductExist = false;
-
     // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
     newCart.forEach((item) => {
       if (item.product_id === id) {
@@ -37,7 +36,6 @@ function ProductPage(props) {
         isProductExist = true;
       }
     });
-
     // Nếu sản phẩm chưa tồn tại, thêm sản phẩm mới vào giỏ hàng
     if (!isProductExist) {
       newCart.push({
@@ -46,7 +44,6 @@ function ProductPage(props) {
         product: product,
       });
     }
-
     dispatch({
       type: SET_CART,
       payload: newCart,

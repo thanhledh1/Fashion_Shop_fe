@@ -3,14 +3,17 @@ import MasterLayout from "../layouts/MasterLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Product from "../models/Product";
+import { SET_CART } from "../redux/action";
 
 function HomePage(props) {
   const [products, setProducts] = useState([]);
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     Product.all()
       .then(function (res) {
-        // Log data trả về để kiểm tra dữ liệu
         console.log(res.data.data);
         setProducts(res.data.data);
       })
@@ -19,11 +22,35 @@ function HomePage(props) {
       });
   }, []);
 
-  console.log(useParams());
+  const handleAddtoCart = (productId) => {
+    let newCart = [...cart];
+    let isProductExist = false;
+
+    newCart.forEach((item) => {
+      if (item.product_id === productId) {
+        item.quantity += 1;
+        isProductExist = true;
+      }
+    });
+
+    if (!isProductExist) {
+      const foundProduct = products.find((p) => p.id === productId);
+      newCart.push({
+        product_id: productId,
+        quantity: 1,
+        product: foundProduct,
+      });
+    }
+
+    dispatch({
+      type: SET_CART,
+      payload: newCart,
+    });
+
+    navigate("/cart");
+  };
   return (
-    
     <MasterLayout>
-      
       <div className="container-fluid pt-5">
         <div className="row px-xl-5 pb-3">
           <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -93,23 +120,27 @@ function HomePage(props) {
                       </div>
                     </div>
                     <div className="card-footer d-flex justify-content-between bg-light border">
-          <Link to={`/product/${product.id}`} className="btn btn-sm text-dark p-0">
-            <i className="fas fa-eye text-primary mr-1" />
-            View Detail
-          </Link>
-          <Link to="/cart" className="btn btn-sm text-dark p-0">
-            <i className="fas fa-shopping-cart text-primary mr-1" />
-            Add To Cart
-          </Link>
-        </div>
+                      <Link
+                        to={`/product/${product.id}`}
+                        className="btn btn-sm text-dark p-0"
+                      >
+                        <i className="fas fa-eye text-primary mr-1" />
+                        View Detail
+                      </Link>
+                      <button
+                        className="btn btn-sm text-dark p-0"
+                        onClick={() => handleAddtoCart(product.id)}
+                      >
+                        <i className="fas fa-shopping-cart text-primary mr-1" />
+                        Add To Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
             : null}
         </div>
       </div>
-
-     
     </MasterLayout>
   );
 }
