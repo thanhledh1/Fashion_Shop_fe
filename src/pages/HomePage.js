@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Product from "../models/Product";
 import { SET_CART } from "../redux/action";
+import Swal from 'sweetalert2';
+
 
 function HomePage(props) {
   const [products, setProducts] = useState([]);
@@ -46,8 +48,7 @@ function HomePage(props) {
       type: SET_CART,
       payload: newCart,
     });
-
-    navigate("/cart");
+    Swal.fire('Success', ' Add to card successfully!', 'success');
   };
   return (
     <MasterLayout>

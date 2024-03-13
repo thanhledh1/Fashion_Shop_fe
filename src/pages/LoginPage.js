@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import MasterLayout from '../layouts/MasterLayout';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function LoginPage(props) {
   const [message, setMessage] = useState('');
@@ -21,6 +22,7 @@ function LoginPage(props) {
         setMessage(response.data.message);
         resetForm();
         Navigate('/checkout');
+        Swal.fire('Success', 'Login successfully!', 'success');
 
 
         
