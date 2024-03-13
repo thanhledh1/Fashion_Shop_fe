@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function Sidebar(props) {
   const location = useLocation();
@@ -8,6 +9,7 @@ function Sidebar(props) {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const name = user.name;
+  const Navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -22,8 +24,8 @@ function Sidebar(props) {
       localStorage.removeItem("cart");
 
       // Điều hướng người dùng đến trang chủ
-      window.location.href = "/";
-      
+      Swal.fire('Success', 'LogOut successfully!', 'success');
+      Navigate('/');
     } catch (error) {
       console.log(error);
       // Xử lý lỗi khi gọi API đăng xuất
