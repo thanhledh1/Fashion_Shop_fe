@@ -3,11 +3,15 @@ import MasterLayout from "../layouts/MasterLayout";
 import { useDispatch, useSelector } from "react-redux";
 import OrderModel from "../models/Order";
 import * as Yup from "yup";
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 
 function CheckoutPage(props) {
   const cart = useSelector((state) => state.cart);
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     let login_user = localStorage.getItem("user");
@@ -17,22 +21,30 @@ function CheckoutPage(props) {
 
   const handleSubmit = () => {
     const values = {
-      customer_id : user.id,
+      customer_id: user.id,
       name: user.name,
       address: user.address,
       email_address: user.email,
       phone: user.phone,
     };
-
+  
     OrderModel.checkout({
       cart: cart,
       userdata: values,
     })
       .then(function (data) {
         console.log("Order placed successfully:", data);
+        Swal.fire('Success', 'Order placed successfully!', 'success');
+  
+        // Xóa giỏ hàng từ localStorage
+        localStorage.removeItem('cart');
+  
+        // Chuyển hướng đến trang chủ
+        navigate("/");
       })
       .catch(function (error) {
         console.error("Error placing order:", error);
+        Swal.fire('Error', 'Failed to place the order.', 'error');
       });
   };
 

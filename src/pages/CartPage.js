@@ -9,6 +9,7 @@ function CartPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Thêm biến trạng thái isLoggedIn
+  const token = localStorage.getItem("token");
 
   const calculateTotal = () => {
     let total = 0;
@@ -19,11 +20,13 @@ function CartPage(props) {
   };
 
   const handleCheckOut = () => {
-    if (isLoggedIn) {
+    if (token) {
+      // Biến token tồn tại
       navigate("/checkout");
     } else {
       alert("Bạn phải đăng nhập trước khi thanh toán.");
-      navigate("/login"); // Chuyển hướng đến trang đăng nhập
+      navigate("/login");
+      // Không điều hướng người dùng đến trang đăng nhập
     }
   };
 
