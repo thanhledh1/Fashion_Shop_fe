@@ -12,6 +12,7 @@ function ProductPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     Product.find(id)
       .then(function (res) {
