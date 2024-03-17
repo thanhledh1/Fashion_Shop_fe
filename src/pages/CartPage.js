@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MasterLayout from "../layouts/MasterLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,8 @@ function CartPage(props) {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Thêm biến trạng thái isLoggedIn
+  const token = localStorage.getItem("token");
 
   const calculateTotal = () => {
     let total = 0;
@@ -18,7 +20,14 @@ function CartPage(props) {
   };
 
   const handleCheckOut = () => {
-    navigate("/checkout");
+    if (token) {
+      // Biến token tồn tại
+      navigate("/checkout");
+    } else {
+      alert("Bạn phải đăng nhập trước khi thanh toán.");
+      navigate("/login");
+      // Không điều hướng người dùng đến trang đăng nhập
+    }
   };
 
   const handleRemoveItem = (productId) => {

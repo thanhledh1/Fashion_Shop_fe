@@ -1,15 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Category from '../../models/Category';
-
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function Sidebar(props) {
   const [categories, setCategories] = useState([]);
   const location = useLocation();
   const [isHomePage, setIsHomePage] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const name = user.name;
+  const Navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      // Gửi yêu cầu API để đăng xuất
+      await axios.post("http://127.0.0.1:8000/api/logout", {
+        // Gửi token JWT hiện tại trong yêu cầu
+        token: localStorage.getItem("token"),
+        cart: localStorage.getItem("cart"),
+      });
+      // Xóa token JWT khỏi localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("cart");
+
+      // Điều hướng người dùng đến trang chủ
+      Swal.fire('Success', 'LogOut successfully!', 'success');
+      Navigate('/');
+    } catch (error) {
+      console.log(error);
+      // Xử lý lỗi khi gọi API đăng xuất
+    }
+  };
   useEffect(() => {
+
     setIsHomePage(location.pathname === '/' || location.pathname === '/index.html');
     setIsCategoryOpen(location.pathname === '/' || location.pathname === '/index.html');
 
@@ -22,6 +49,14 @@ function Sidebar(props) {
         alert("500 error");
       });
 
+    // Xác định xem có phải trang chủ không dựa trên pathname
+    setIsHomePage(
+      location.pathname === "/" || location.pathname === "/index.html"
+    );
+    // Đóng category menu khi không ở trang chủ
+    setIsCategoryOpen(
+      location.pathname === "/" || location.pathname === "/index.html"
+    );
   }, [location]);
 
   const toggleCategory = () => {
@@ -38,10 +73,16 @@ function Sidebar(props) {
             style={{ height: 65, marginTop: "-1px", padding: "0 30px" }}
           >
             <h6 className="m-0">Categories</h6>
-            <i className={`fa fa-angle-${isCategoryOpen ? 'up' : 'down'} text-dark`} />
+            <i
+              className={`fa fa-angle-${
+                isCategoryOpen ? "up" : "down"
+              } text-dark`}
+            />
           </a>
           <nav
-            className={`collapse navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 ${isCategoryOpen ? 'show' : ''}`}
+            className={`collapse navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 ${
+              isCategoryOpen ? "show" : ""
+            }`}
             id="navbar-vertical"
           >
             <div className="row px-xl-5 pb-3">
@@ -89,6 +130,13 @@ function Sidebar(props) {
                 <Link to="/" className="nav-item nav-link active">
                   Home
                 </Link>
+
+                <Link to="" className="nav-item nav-link">
+                  Shop
+                </Link>
+                <Link to="" className="nav-item nav-link">
+                  Shop Detail
+                </Link>
                 <div className="nav-item dropdown">
                   <Link
                     to="#"
@@ -106,22 +154,44 @@ function Sidebar(props) {
                     </Link>
                   </div>
                 </div>
+                <Link to="" className="nav-item nav-link">
+                  Contact
+                </Link>
               </div>
               <div className="navbar-nav ml-auto py-0">
-                <Link to="/login" className="nav-item nav-link">
-                  Login
+                {localStorage.getItem("token") ? (
+                  <>
+                   <Link  to="/profile" className="nav-item nav-link">Hello, {name}
                 </Link>
-                <Link to="/register" className="nav-item nav-link">
-                  Register
-                </Link>
+
+                    <button onClick={handleLogout}>Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="nav-item nav-link">
+                      Login
+                    </Link>
+                    <Link to="/register" className="nav-item nav-link">
+                      Register
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </nav>
           {isHomePage && (
-            <div id="header-carousel" className="carousel slide" data-ride="carousel">
+            <div
+              id="header-carousel"
+              className="carousel slide"
+              data-ride="carousel"
+            >
               <div className="carousel-inner">
                 <div className="carousel-item active" style={{ height: 410 }}>
-                  <img className="img-fluid" src="img/carousel-1.jpg" alt="Image" />
+                  <img
+                    className="img-fluid"
+                    src="img/carousel-1.jpg"
+                    alt="Image"
+                  />
                   <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div className="p-3" style={{ maxWidth: 700 }}>
                       <h4 className="text-light text-uppercase font-weight-medium mb-3">
@@ -137,7 +207,11 @@ function Sidebar(props) {
                   </div>
                 </div>
                 <div className="carousel-item" style={{ height: 410 }}>
-                  <img className="img-fluid" src="img/carousel-2.jpg" alt="Image" />
+                  <img
+                    className="img-fluid"
+                    src="img/carousel-2.jpg"
+                    alt="Image"
+                  />
                   <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div className="p-3" style={{ maxWidth: 700 }}>
                       <h4 className="text-light text-uppercase font-weight-medium mb-3">
@@ -175,9 +249,8 @@ function Sidebar(props) {
           )}
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
 export default Sidebar;
-

@@ -19,6 +19,15 @@ class UserModel {
             })
         })
     }
+    update(data){
+        return new Promise( ( resolve,reject ) => {
+            axios.put( this.apiUrl+"/customer/update" , data).then( function(data){
+                resolve(data)
+            }).catch( function( error ){
+                reject(error)
+            })
+        })
+    }
 
 }
 export default new UserModel();

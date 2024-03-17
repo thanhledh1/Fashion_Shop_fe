@@ -4,8 +4,11 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import MasterLayout from '../layouts/MasterLayout';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 function CustomerForm() {
+  const navigate = useNavigate();
+
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
         email: Yup.string()
@@ -49,6 +52,8 @@ function CustomerForm() {
                 console.log(response.data);
                 // Reset form after successful submission
                 resetForm();
+    navigate("/login");
+                
             })
             .catch(error => {
                 console.error('Error:', error);
